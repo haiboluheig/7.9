@@ -8,31 +8,58 @@
 #include <iostream>
 #include <cstdlib>
 
+double Voiture::prixEssence = 1.5;
 
-ostream& operator<<(ostream& os,const Objet& obj){
-    return os<<"Objet no "<<obj._no;
-}
-Objet::Objet(){
-    cout<<"Appel du constructeur\n";
-    _no = _prochainNo++;
-    _compteur++;
-}
-Objet::~Objet(){
-    cout <<"Appel du destructeur\n";
-    _compteur--;
+Voiture::Voiture(unsigned capaciteReservoir, double consommationMoyenne)
+: capaciteReservoir(capaciteReservoir), consommationMoyenne(consommationMoyenne),
+nbLitresDansReservoir(capaciteReservoir) {
 }
 
-uint Objet::no() const{
-    return _no;
+unsigned Voiture::getCapaciteReservoir() const {
+    return capaciteReservoir;
 }
 
-uint Objet::compteur(){
-   return _compteur;
+double Voiture::getConsommationMoyenne() const {
+    return consommationMoyenne;
 }
 
-uint Objet::prochainNo(){
-    return _prochainNo;
+double Voiture::getNbLitresDansReservoir() const {
+    return nbLitresDansReservoir;
 }
 
-uint Objet::_compteur=0;
-uint Objet::_prochainNo=1;
+double Voiture::getPrixEssence() {
+    return prixEssence;
+}
+
+void Voiture::setPrixEssence(double prix) {
+    prixEssence = prix;
+}
+
+double Voiture::coutTrajet(double nbKm) {
+    const double CONSOMMATION = nbKm * consommationMoyenne / 100;
+    if (CONSOMMATION < nbLitresDansReservoir)
+        nbLitresDansReservoir -= CONSOMMATION;
+    else
+        nbLitresDansReservoir =
+            capaciteReservoir -
+            fmod(CONSOMMATION - nbLitresDansReservoir, capaciteReservoir); //******
+    return CONSOMMATION*prixEssence;
+}
+void afficherPrixEssence(double prix){
+    cout << "Prix de l'essence :"
+            <<fixed << setprecision(2) << prix <<" Frs" << endl <<endl;
+}
+
+void afficherVoiture(const Voiture& v){
+    cout << "Capacite de reservoir [lire]        : "
+         <<v.getCapaciteReservoir() << endl
+         << "Consommation moyenne [l/100km]      : "
+         <<v.getConsommationMoyenne() <<endl
+         << "Nb litres restants                  : "
+         << v.getNbLitresDansReservoir() << endl <<endl;
+}
+
+void afficherCoutTrajet(double montant) {
+    cout << "Cout du trajet  : "
+            <<fixed << setprecision(2) <<montant << "Frs" <<endl <<endl;
+}

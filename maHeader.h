@@ -1,35 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   newfile.h
- * Author: lvhb_
- *
- * Created on February 28, 2018, 3:51 PM
- */
+//7.9
 
 #ifndef MAHEADER_H
 #define MAHEADER_H
 #include <iostream>
 #include <cstdlib>
+#include <iomanip>
+#include <cmath>
 using namespace std;
-using uint = unsigned int;
 
-class Objet {
-    friend ostream& operator<<(ostream& os, const Objet& obj);
+
+class Voiture {
+    
 public:
-    Objet();
-    ~Objet();
-    uint no() const;
-    static uint prochainNo();
-    static uint compteur();
+    //constructeur
+    Voiture (unsigned capaciteReservoir,double consommationMoyenne);
+    //sélecteurs
+    unsigned getCapaciteReservoir() const;
+    double getConsommationMoyenne() const;
+    double getNbLitresDansReservoir() const;
+//fonctions nombres static
+    static double getPrixEssence();
+    static void setPrixEssence(double prix);
+    //autres
+    double coutTrajet(double nbKm);
 private:
-    uint _no;
-    static uint _prochainNo;
-    static uint _compteur;
+    static double prixEssence;  //en Frs
+    const unsigned capaciteReservoir;//en litres
+    const double consommationMoyenne;//litres aux 100km
+    double nbLitresDansReservoir;//nb de litres actuellement dans le réservoir   
 };
+
+void afficherPrixEssence(double prix);
+void afficherCoutTrajet(double motant);
+void afficherVoiture( const Voiture& v);
 #endif /* MAHEADER_H */
 
